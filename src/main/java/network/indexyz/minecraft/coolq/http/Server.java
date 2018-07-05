@@ -46,7 +46,6 @@ public class Server extends NanoHTTPD {
 
 
         String postBody = files.get("postData");
-        Main.logger.info(postBody);
         JSONObject obj = new JSONObject(postBody);
         try {
             Recv.parseRequestBody(obj);

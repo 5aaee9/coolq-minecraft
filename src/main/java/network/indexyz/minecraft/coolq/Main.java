@@ -1,9 +1,11 @@
 package network.indexyz.minecraft.coolq;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import network.indexyz.minecraft.coolq.events.ServerChatEventHandler;
 import network.indexyz.minecraft.coolq.http.Server;
 import network.indexyz.minecraft.coolq.utils.Config;
 import org.apache.logging.log4j.Logger;
@@ -34,5 +36,6 @@ public class Main {
     public void init(FMLInitializationEvent event) throws IOException {
         server = new Server();
         server.startService();
+        MinecraftForge.EVENT_BUS.register(new ServerChatEventHandler());
     }
 }
