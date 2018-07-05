@@ -2,16 +2,21 @@ package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import network.indexyz.minecraft.coolq.Main;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Recv {
+    private static String clearImage(String str) {
+        String regex = "\\[CQ:image,[(\\s\\S)]*\\]";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
+
     public static void parseRequestBody(JSONObject jsonObject) throws IOException {
         String type = jsonObject.getString("post_type");
         switch (type) {
@@ -27,18 +32,20 @@ public class Recv {
                         return;
                     }
 
+                    String message = jsonObject.getString("raw_message");
+                    message = Recv.clearImage(message);
+
+                    // Image only message
+                    if (message.length() == 0) {
+                        return;
+                    }
+
                     String username = userInfo.getJSONObject("data").getString("card");
-                    if (username == null) {
+                    if (username.equals("")) {
                         username = userInfo.getJSONObject("data").getString("nickname");
                     }
 
-                    ITextComponent message = new TextComponentString("[QQ][" + username + "]: " + jsonObject.getString("raw_message"));
-
-                    Arrays.stream(DimensionManager.getWorlds())
-                            .forEach(
-                                    w -> w.addScheduledTask(() -> w.playerEntities
-                                            .forEach(p -> p.sendMessage(message)))
-                            );
+                    Chat.addMessageToChat(new TextComponentString("[QQ][" + username + "]: " + message));
                 }
                 break;
             }
