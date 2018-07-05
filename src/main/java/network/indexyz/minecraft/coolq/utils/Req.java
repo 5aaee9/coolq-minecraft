@@ -14,8 +14,9 @@ public class Req {
                 .url(Config.sendHost + "/get_group_member_info?group_id=" + group + "&user_id=" + userId)
                 .build();
         Response response = client.newCall(request).execute();
+        String ret = response.body().string();
         response.close();
-        return response.body().string();
+        return ret;
     }
 
     public static void sendToQQ(EntityPlayerMP player, String message) throws IOException {
