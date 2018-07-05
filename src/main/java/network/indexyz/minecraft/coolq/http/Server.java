@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Server extends NanoHTTPD {
-    public Server() throws IOException {
+    public Server() {
         super(Config.httpStartAt);
     }
 

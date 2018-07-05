@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 @Mod(modid = Main.MOD_ID, name = Main.NAME, version = Main.VERSION,
-        acceptedMinecraftVersions = "1.12.2", serverSideOnly = true)
+        acceptedMinecraftVersions = "1.12.2", serverSideOnly = true, acceptableRemoteVersions = "*")
 public class Main {
     public static final String MOD_ID = "coolq-minecraft";
     public static final String NAME = "Coolq Minecraft";
