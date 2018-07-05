@@ -44,7 +44,10 @@ shadowJar {
         include dependency('com.squareup.okio:okio:1.14.0')
         include dependency('org.nanohttpd:nanohttpd:2.3.1')
     }
+    classifier = 'full'
 }
+
+build.dependsOn(shadowJar)
 
 processResources {
     inputs.property "version", project.version
@@ -60,3 +63,6 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+reobf { shadowJar { mappingType = 'SEARGE' } }
+tasks.reobfShadowJar.mustRunAfter shadowJar
