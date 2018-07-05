@@ -7,6 +7,11 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "0.0.0"
@@ -26,7 +31,19 @@ minecraft {
 }
 
 dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'org.json:json:20171018'
+    compile 'com.squareup.okio:okio:1.14.0'
+    compile 'org.nanohttpd:nanohttpd:2.3.1'
+}
 
+shadowJar {
+    dependencies {
+        include dependency('com.squareup.okhttp3:okhttp:3.9.1')
+        include dependency('org.json:json:20171018')
+        include dependency('com.squareup.okio:okio:1.14.0')
+        include dependency('org.nanohttpd:nanohttpd:2.3.1')
+    }
 }
 
 processResources {
