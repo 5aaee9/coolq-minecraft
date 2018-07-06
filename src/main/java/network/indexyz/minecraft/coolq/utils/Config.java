@@ -7,7 +7,7 @@ import network.indexyz.minecraft.coolq.Main;
 public class Config {
     public static String sendHost = "http://127.0.0.1:5700";
     public static int httpStartAt = 1080;
-    public static int groupId = 0;
+    public static long groupId = 0;
     public static String accessToken = "";
     public static String signature = "";
 
@@ -32,7 +32,7 @@ public class Config {
 
             Config.sendHost = sendHostProp.getString();
             Config.httpStartAt = httpStartAtProp.getInt();
-            Config.groupId = groupIdProp.getInt();
+            Config.groupId = groupIdProp.getLong();
             Config.accessToken = accessTokenProp.getString();
             Config.signature = signatureProp.getString();
         } catch (Exception e) {

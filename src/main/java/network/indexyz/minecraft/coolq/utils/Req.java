@@ -19,7 +19,7 @@ public class Req {
     }
 
 
-    static String getUserNameById(int group, int userId) throws IOException {
+    static String getUserNameById(long group, long userId) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = getRequest()
                 .url(Config.sendHost + "/get_group_member_info?group_id=" + group + "&user_id=" + userId)

@@ -25,7 +25,7 @@ public class Recv {
                     if (!(jsonObject.getInt("group_id") == Config.groupId)) {
                         return;
                     }
-                    int userId = jsonObject.getInt("user_id");
+                    long userId = jsonObject.getLong("user_id");
                     JSONObject userInfo = new JSONObject(Req.getUserNameById(Config.groupId, userId));
                     if (userInfo.getInt("retcode") != 0) {
                         Main.logger.warn("get user info error, user: " + userId);
