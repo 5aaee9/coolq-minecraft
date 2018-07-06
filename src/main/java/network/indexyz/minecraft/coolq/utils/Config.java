@@ -8,6 +8,8 @@ public class Config {
     public static String sendHost = "http://127.0.0.1:5700";
     public static int httpStartAt = 1080;
     public static int groupId = 0;
+    public static String accessToken = "";
+    public static String signature = "";
 
     public static void init() {
         try {
@@ -18,11 +20,21 @@ public class Config {
 
             Property httpStartAtProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "httpStartAt",
                     1080, "Coolq Callback server start at this port");
+
             Property groupIdProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "groupId",
                     0, "QQ Group id");
+
+            Property accessTokenProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "accessToken",
+                    "", "Coolq HTTP Access Token");
+
+            Property signatureProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "signature",
+                    "", "Coolq HTTP Signature");
+
             Config.sendHost = sendHostProp.getString();
             Config.httpStartAt = httpStartAtProp.getInt();
             Config.groupId = groupIdProp.getInt();
+            Config.accessToken = accessTokenProp.getString();
+            Config.signature = signatureProp.getString();
         } catch (Exception e) {
             // Not need handle here
         } finally {

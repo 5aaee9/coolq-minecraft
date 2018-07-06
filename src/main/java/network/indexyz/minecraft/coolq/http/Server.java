@@ -4,8 +4,11 @@ import fi.iki.elonen.NanoHTTPD;
 import network.indexyz.minecraft.coolq.Main;
 import network.indexyz.minecraft.coolq.utils.Config;
 import network.indexyz.minecraft.coolq.utils.Recv;
+import org.apache.commons.codec.digest.HmacAlgorithms;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.json.JSONObject;
 
+import javax.crypto.Mac;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +32,7 @@ public class Server extends NanoHTTPD {
     @Override
     public Response serve(IHTTPSession session) {
         Method method = session.getMethod();
+        Map<String, String> headers = session.getHeaders();
 
         if (!Method.POST.equals(method)) {
             return newFixedLengthResponse(Response.Status.METHOD_NOT_ALLOWED, MIME_PLAINTEXT, "POST plz.");
@@ -44,8 +48,28 @@ public class Server extends NanoHTTPD {
             return newFixedLengthResponse(re.getStatus(), MIME_PLAINTEXT, re.getMessage());
         }
 
-
         String postBody = files.get("postData");
+
+        if (!Config.signature.equals("")) {
+            // Need verify body
+            String signature = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, Config.signature.getBytes())
+                    .hmacHex(postBody);
+
+            if (!headers.containsKey("x-signature")) {
+                JSONObject obj = new JSONObject();
+                obj.put("status", "error");
+                obj.put("message", "Not found x-signature");
+                return newFixedLengthResponse(Response.Status.UNAUTHORIZED,
+                        "application/json", obj.toString());
+            }
+            if (!headers.get("x-signature").equals(signature)) {
+                JSONObject obj = new JSONObject();
+                obj.put("status", "error");
+                obj.put("message", "Signature verify error");
+                return newFixedLengthResponse(Response.Status.UNAUTHORIZED,
+                        "application/json", obj.toString());
+            }
+        }
         JSONObject obj = new JSONObject(postBody);
         try {
             Recv.parseRequestBody(obj);
