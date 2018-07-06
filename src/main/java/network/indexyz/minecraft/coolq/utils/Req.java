@@ -12,7 +12,7 @@ public class Req {
         Request.Builder builder = new Request.Builder();
 
         if (!(Config.accessToken.equals(""))) {
-            builder.addHeader("Authorization", "Token " + Config.accessToken);
+            builder = builder.addHeader("Authorization", "Token " + Config.accessToken);
         }
 
         return builder;

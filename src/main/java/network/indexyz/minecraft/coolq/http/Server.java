@@ -8,7 +8,6 @@ import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.json.JSONObject;
 
-import javax.crypto.Mac;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class Server extends NanoHTTPD {
         if (!Method.POST.equals(method)) {
             return newFixedLengthResponse(Response.Status.METHOD_NOT_ALLOWED, MIME_PLAINTEXT, "POST plz.");
         }
-        Map<String, String> files = new HashMap<String, String>();
+        Map<String, String> files = new HashMap<>();
 
         try {
             session.parseBody(files);
@@ -52,17 +51,21 @@ public class Server extends NanoHTTPD {
 
         if (!Config.signature.equals("")) {
             // Need verify body
-            String signature = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, Config.signature.getBytes())
-                    .hmacHex(postBody);
+            String signature = HmacUtils.hmacSha1Hex(Config.signature, postBody);
 
             if (!headers.containsKey("x-signature")) {
                 JSONObject obj = new JSONObject();
                 obj.put("status", "error");
                 obj.put("message", "Not found x-signature");
-                return newFixedLengthResponse(Response.Status.UNAUTHORIZED,
+                return newFixedLengthResponse(Response.Status.FORBIDDEN,
                         "application/json", obj.toString());
             }
-            if (!headers.get("x-signature").equals(signature)) {
+
+            String serverPost = headers.get("x-signature").substring(5);
+            if (!serverPost.equals(signature)) {
+                Main.logger.warn("signature verify error");
+                Main.logger.warn("get: " + serverPost);
+                Main.logger.warn("require: " + signature);
                 JSONObject obj = new JSONObject();
                 obj.put("status", "error");
                 obj.put("message", "Signature verify error");
@@ -70,6 +73,7 @@ public class Server extends NanoHTTPD {
                         "application/json", obj.toString());
             }
         }
+
         JSONObject obj = new JSONObject(postBody);
         try {
             Recv.parseRequestBody(obj);
