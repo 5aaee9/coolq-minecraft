@@ -18,7 +18,7 @@ import java.io.IOException;
 public class Main {
     public static final String MOD_ID = "coolq-minecraft";
     public static final String NAME = "Coolq Minecraft";
-    public static final String VERSION = "0.0.0";
+    public static final String VERSION = "0.0.1";
 
     public static Configuration configuration;
     public static Logger logger;
