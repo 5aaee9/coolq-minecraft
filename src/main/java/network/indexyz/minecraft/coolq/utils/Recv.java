@@ -45,6 +45,10 @@ public class Recv {
                         username = userInfo.getJSONObject("data").getString("nickname");
                     }
 
+                    if (message.startsWith("!!")) {
+                        // TODO: Command parse
+                    }
+
                     Chat.addMessageToChat(new TextComponentString("[QQ][" + username + "]: " + message));
                 }
                 break;
