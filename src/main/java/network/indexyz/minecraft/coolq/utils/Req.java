@@ -30,16 +30,20 @@ public class Req {
         return ret;
     }
 
-    public static void sendToQQ(EntityPlayerMP player, String message) throws IOException {
+    public static void sendToQQ(EntityPlayerMP player, String message) {
         sendToQQ("[" + player.getName() + "]: " + message);
     }
 
-    public static void sendToQQ(String message) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Request request = getRequest()
-                .url(Config.sendHost + "/send_group_msg?group_id=" + Config.groupId + "&message=" + message)
-                .build();
+    public static void sendToQQ(String message) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = getRequest()
+                    .url(Config.sendHost + "/send_group_msg?group_id=" + Config.groupId + "&message=" + message)
+                    .build();
 
-        client.newCall(request).execute().close();
+            client.newCall(request).execute().close();
+        } catch (IOException error) {
+            error.printStackTrace();
+        }
     }
 }
