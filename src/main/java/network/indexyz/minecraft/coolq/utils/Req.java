@@ -31,7 +31,7 @@ public class Req {
     }
 
     public static void sendToQQ(EntityPlayerMP player, String message) {
-        sendToQQ("[" + player.getName() + "]: " + message);
+        sendToQQ("[" + Chat.stripColor(player.getName()) + "]: " + message);
     }
 
     public static void sendToQQ(String message) {
