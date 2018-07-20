@@ -13,14 +13,14 @@ public class PlayerEvents {
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         new Thread(() -> {
             Req.sendToQQ(event.player.getDisplayNameString() + " joined server");
-        });
+        }).start();
     }
 
     @SubscribeEvent
     public static void playerLeft(PlayerEvent.PlayerLoggedOutEvent event) {
         new Thread(() -> {
             Req.sendToQQ(event.player.getDisplayNameString() + " left server");
-        });
+        }).start();
     }
 
     @SubscribeEvent
@@ -29,7 +29,7 @@ public class PlayerEvents {
             String message = event.getSource().getDeathMessage(event.getEntityLiving()).getUnformattedText();
             new Thread(() -> {
                 Req.sendToQQ(String.format(message, ((EntityPlayer) event.getEntity()).getDisplayNameString()));
-            });
+            }).start();
         }
     }
 }

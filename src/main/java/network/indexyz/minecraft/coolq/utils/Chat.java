@@ -27,7 +27,7 @@ public class Chat {
     }
 
 
-    private static Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
+    private static Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf("&") + "[0-9A-FK-OR]");
 
     public static String stripColor(String input) {
         return input == null ? null : Chat.STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
