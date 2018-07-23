@@ -42,9 +42,8 @@ public class Index {
 
 
     private static List<Class> getCommandClass() {
-        List<Class> returnClassList = new ArrayList<>();
-
         if (Index.classList == null) {
+            List<Class> returnClassList = new ArrayList<>();
             final ClassLoader loader = Thread.currentThread().getContextClassLoader();
             try {
                 for (final ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClasses()) {
