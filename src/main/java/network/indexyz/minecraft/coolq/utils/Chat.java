@@ -4,8 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import network.indexyz.minecraft.coolq.Main;
-
 import java.util.regex.Pattern;
 
 public class Chat {
@@ -21,8 +19,8 @@ public class Chat {
                     }
                 }
             }
-        } catch (NullPointerException npe) {
-            Main.logger.error("Utils...getMinecraft() threw NullPointerException", npe);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
