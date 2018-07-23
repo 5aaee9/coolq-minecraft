@@ -11,25 +11,19 @@ import network.indexyz.minecraft.coolq.utils.Req;
 public class PlayerEvents {
     @SubscribeEvent
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        new Thread(() -> {
-            Req.sendToQQ(event.player.getDisplayNameString() + " joined server");
-        }).start();
+        Req.sendToQQ(event.player.getDisplayNameString() + " joined server");
     }
 
     @SubscribeEvent
     public static void playerLeft(PlayerEvent.PlayerLoggedOutEvent event) {
-        new Thread(() -> {
-            Req.sendToQQ(event.player.getDisplayNameString() + " left server");
-        }).start();
+        Req.sendToQQ(event.player.getDisplayNameString() + " left server");
     }
 
     @SubscribeEvent
     public static void playerDeadEvent(LivingDeathEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {
             String message = event.getSource().getDeathMessage(event.getEntityLiving()).getUnformattedText();
-            new Thread(() -> {
-                Req.sendToQQ(String.format(message, ((EntityPlayer) event.getEntity()).getDisplayNameString()));
-            }).start();
+            Req.sendToQQ(String.format(message, ((EntityPlayer) event.getEntity()).getDisplayNameString()));
         }
     }
 }

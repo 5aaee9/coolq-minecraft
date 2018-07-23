@@ -35,15 +35,17 @@ public class Req {
     }
 
     public static void sendToQQ(String message) {
-        try {
-            OkHttpClient client = new OkHttpClient();
-            Request request = getRequest()
-                    .url(Config.sendHost + "/send_group_msg?group_id=" + Config.groupId + "&message=" + message)
-                    .build();
+        new Thread(() -> {
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request request = getRequest()
+                        .url(Config.sendHost + "/send_group_msg?group_id=" + Config.groupId + "&message=" + message)
+                        .build();
 
-            client.newCall(request).execute().close();
-        } catch (IOException error) {
-            error.printStackTrace();
-        }
+                client.newCall(request).execute().close();
+            } catch (IOException error) {
+                error.printStackTrace();
+            }
+        }).start();
     }
 }

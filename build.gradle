@@ -34,8 +34,7 @@ def deps = [
         'com.squareup.okhttp3:okhttp:3.9.1',
         'org.json:json:20171018',
         'com.squareup.okio:okio:1.14.0',
-        'org.nanohttpd:nanohttpd:2.3.1',
-//        'commons-codec:commons-codec:1.11',
+        'org.nanohttpd:nanohttpd:2.3.1'
 ] as String[]
 
 dependencies {

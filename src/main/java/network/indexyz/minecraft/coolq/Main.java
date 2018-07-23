@@ -4,6 +4,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import network.indexyz.minecraft.coolq.commands.Index;
 import network.indexyz.minecraft.coolq.http.Server;
 import network.indexyz.minecraft.coolq.utils.Config;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,8 @@ public class Main {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        logger.info("yes start");
+        Index.invokeCommand("!!list");
         Main.configuration = new Configuration(event.getSuggestedConfigurationFile());
         Config.init();
     }

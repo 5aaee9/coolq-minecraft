@@ -11,8 +11,6 @@ public class ServerChatEventHandler {
     @SubscribeEvent
     public static void onServerChatEvent(ServerChatEvent event) {
         EntityPlayerMP sender = event.getPlayer();
-        new Thread(() -> {
-            Req.sendToQQ(sender, event.getMessage());
-        }).start();
+        Req.sendToQQ(sender, event.getMessage());
     }
 }

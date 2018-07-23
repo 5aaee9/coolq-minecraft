@@ -3,6 +3,7 @@ package network.indexyz.minecraft.coolq.utils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import network.indexyz.minecraft.coolq.Main;
+import network.indexyz.minecraft.coolq.commands.Index;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -69,7 +70,8 @@ public class Recv {
                     }
 
                     if (message.startsWith("!!")) {
-                        // TODO: Command parse
+                        Index.invokeCommand(message);
+                        return;
                     }
 
                     Chat.addMessageToChat(new TextComponentString("[QQ][" + username + "]: " + message));
