@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Index {
-    private static List<Class> classList = null;
+    private static List<Class<? extends Command>> classList = null;
 
     public static void invokeCommand(String command, Context ctx) {
         String commandBody = command.substring(2);
@@ -40,10 +40,10 @@ public class Index {
         }
     }
 
-
-    private static List<Class> getCommandClass() {
+    @SuppressWarnings("unchecked")
+    private static List<Class<? extends Command>> getCommandClass() {
         if (Index.classList == null) {
-            List<Class> returnClassList = new ArrayList<>();
+            List<Class<? extends Command>> returnClassList = new ArrayList<>();
             final ClassLoader loader = Thread.currentThread().getContextClassLoader();
             try {
                 for (final ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClasses()) {
@@ -51,7 +51,7 @@ public class Index {
                         final Class<?> clazz = info.load();
                         if (Command.class.isAssignableFrom(clazz)) {
                             if (!Command.class.equals(clazz)) {
-                                returnClassList.add(clazz);
+                                returnClassList.add((Class<? extends Command>)clazz);
                             }
                         }
                     }

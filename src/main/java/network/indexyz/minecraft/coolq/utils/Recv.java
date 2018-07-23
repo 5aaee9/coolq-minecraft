@@ -5,7 +5,6 @@ import network.indexyz.minecraft.coolq.Main;
 import network.indexyz.minecraft.coolq.commands.Context;
 import network.indexyz.minecraft.coolq.commands.Index;
 import org.json.JSONObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -19,7 +18,7 @@ public class Recv {
         return m.replaceAll("").trim();
     }
 
-    private static String replaceAt(String origin) throws NotImplementedException {
+    private static String replaceAt(String origin) {
         String regex = "\\[CQ:at,qq=(\\d*)\\]";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(origin);
