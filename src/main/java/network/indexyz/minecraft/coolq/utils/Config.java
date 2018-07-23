@@ -39,10 +39,10 @@ public class Config {
                     "", "Coolq HTTP Signature");
 
             Property blacklistProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "blacklist",
-                    "", "Will ignore message from this id");
+                    (new String[]{ }), "Will ignore message from this id");
 
             Property messageLimitProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "messageLimit",
-                    "", "Will ignore message if longer than this value (-1 for unlimited)");
+                    -1, "Will ignore message if longer than this value (-1 for unlimited)");
 
 
             Config.sendHost = sendHostProp.getString();
