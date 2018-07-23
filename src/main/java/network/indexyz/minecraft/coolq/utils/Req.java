@@ -1,7 +1,6 @@
 package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import network.indexyz.minecraft.coolq.Main;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

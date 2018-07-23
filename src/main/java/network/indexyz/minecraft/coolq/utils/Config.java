@@ -5,8 +5,6 @@ import net.minecraftforge.common.config.Property;
 import network.indexyz.minecraft.coolq.Main;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Config {
     public static String sendHost = "http://127.0.0.1:5700";

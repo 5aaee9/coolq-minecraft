@@ -4,7 +4,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import network.indexyz.minecraft.coolq.commands.Index;
 import network.indexyz.minecraft.coolq.http.Server;
 import network.indexyz.minecraft.coolq.utils.Config;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,7 @@ import java.io.IOException;
 public class Main {
     public static final String MOD_ID = "coolq-minecraft";
     public static final String NAME = "Coolq Minecraft";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "@version@";
 
     public static Configuration configuration;
     public static Logger logger;

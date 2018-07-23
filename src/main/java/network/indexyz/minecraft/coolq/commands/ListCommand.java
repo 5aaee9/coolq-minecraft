@@ -3,7 +3,6 @@ package network.indexyz.minecraft.coolq.commands;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import network.indexyz.minecraft.coolq.Main;
 import network.indexyz.minecraft.coolq.utils.Req;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class ListCommand implements Command {
 
     @Override
     public void process(List<String> args, Context ctx) {
-
         List<EntityPlayerMP> users = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
         String userList = users.stream()
             .map(EntityPlayer::getDisplayNameString)
