@@ -10,6 +10,8 @@ public class Config {
     public static long groupId = 0;
     public static String accessToken = "";
     public static String signature = "";
+    public static String blacklist[] = null;
+    public static int messageLimit = -1;
 
     public static void init() {
         try {
@@ -30,11 +32,20 @@ public class Config {
             Property signatureProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "signature",
                     "", "Coolq HTTP Signature");
 
+            Property blacklistProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "blacklist",
+                    "", "Will ignore message from this id");
+
+            Property messageLimitProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "messageLimit",
+                    "", "Will ignore message if longer than this value (-1 for unlimited)");
+
+
             Config.sendHost = sendHostProp.getString();
             Config.httpStartAt = httpStartAtProp.getInt();
             Config.groupId = groupIdProp.getLong();
             Config.accessToken = accessTokenProp.getString();
             Config.signature = signatureProp.getString();
+            Config.blacklist = blacklistProp.getStringList();
+            Config.messageLimit = messageLimitProp.getInt();
         } catch (Exception e) {
             // Not need handle here
         } finally {

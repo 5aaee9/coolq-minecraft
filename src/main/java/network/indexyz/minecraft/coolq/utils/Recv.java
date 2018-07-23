@@ -4,6 +4,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import network.indexyz.minecraft.coolq.Main;
 import org.json.JSONObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -15,6 +16,18 @@ public class Recv {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
+    }
+
+    public static String replaceAt(String origin) throws NotImplementedException {
+        String regex = "\\[CQ:at,qq=[(\\d)]{6,11}\\]";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(origin);
+        if (m.find()) {
+            Main.logger.info(m.groupCount());
+        } else {
+            Main.logger.info("not found");
+        }
+        throw new NotImplementedException();
     }
 
     public static void parseRequestBody(JSONObject jsonObject) throws IOException {
@@ -37,6 +50,16 @@ public class Recv {
 
                     // Image only message
                     if (message.length() == 0) {
+                        return;
+                    }
+
+                    for (String black: Config.blacklist) {
+                        if (black.equals(String.valueOf(userId))) {
+                            return;
+                        }
+                    }
+
+                    if (Config.messageLimit != -1 && Config.messageLimit < message.length()) {
                         return;
                     }
 

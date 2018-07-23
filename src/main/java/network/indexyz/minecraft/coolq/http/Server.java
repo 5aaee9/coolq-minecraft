@@ -4,7 +4,6 @@ import fi.iki.elonen.NanoHTTPD;
 import network.indexyz.minecraft.coolq.Main;
 import network.indexyz.minecraft.coolq.utils.Config;
 import network.indexyz.minecraft.coolq.utils.Recv;
-import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.json.JSONObject;
 
@@ -36,6 +35,7 @@ public class Server extends NanoHTTPD {
         if (!Method.POST.equals(method)) {
             return newFixedLengthResponse(Response.Status.METHOD_NOT_ALLOWED, MIME_PLAINTEXT, "POST plz.");
         }
+
         Map<String, String> files = new HashMap<>();
 
         try {
