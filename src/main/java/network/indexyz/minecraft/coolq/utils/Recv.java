@@ -1,6 +1,5 @@
 package network.indexyz.minecraft.coolq.utils;
 
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import network.indexyz.minecraft.coolq.Main;
 import network.indexyz.minecraft.coolq.commands.Context;
@@ -20,16 +19,24 @@ public class Recv {
         return m.replaceAll("").trim();
     }
 
-    public static String replaceAt(String origin) throws NotImplementedException {
-        String regex = "\\[CQ:at,qq=[(\\d)]{6,11}\\]";
+    private static String replaceAt(String origin) throws NotImplementedException {
+        String regex = "\\[CQ:at,qq=(\\d*)\\]";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(origin);
-        if (m.find()) {
-            Main.logger.info(m.groupCount());
-        } else {
-            Main.logger.info("not found");
+
+        try {
+            while (m.find()) {
+                String username = Req.getUsernameFromInfo(
+                    Req.getUserNameById(Config.groupId, Long.valueOf(m.group(1)))
+                );
+
+                origin = m.replaceFirst("@" + username);
+                m = p.matcher(origin);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        throw new NotImplementedException();
+        return origin;
     }
 
     public static void parseRequestBody(JSONObject jsonObject) throws IOException {
@@ -41,13 +48,14 @@ public class Recv {
                         return;
                     }
                     long userId = jsonObject.getLong("user_id");
-                    JSONObject userInfo = new JSONObject(Req.getUserNameById(Config.groupId, userId));
-                    if (userInfo.getInt("retcode") != 0) {
+                    String username = Req.getUsernameFromInfo(Req.getUserNameById(Config.groupId, userId));
+                    if (username.equals("")) {
                         Main.logger.warn("get user info error, user: " + userId);
                         return;
                     }
 
                     String message = jsonObject.getString("raw_message");
+                    message = Recv.replaceAt(message);
                     message = Recv.clearImage(message);
 
                     // Image only message
@@ -65,10 +73,6 @@ public class Recv {
                         return;
                     }
 
-                    String username = userInfo.getJSONObject("data").getString("card");
-                    if (username.equals("")) {
-                        username = userInfo.getJSONObject("data").getString("nickname");
-                    }
 
                     if (message.startsWith("!!")) {
                         Context ctx = new Context();

@@ -1,9 +1,11 @@
 package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import network.indexyz.minecraft.coolq.Main;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -27,7 +29,23 @@ public class Req {
         Response response = client.newCall(request).execute();
         String ret = response.body().string();
         response.close();
+
         return ret;
+    }
+
+    static String getUsernameFromInfo(String infoBody) {
+        JSONObject userInfo = new JSONObject(infoBody);
+
+        if (userInfo.getInt("retcode") != 0) {
+            return "";
+        }
+
+        String username = userInfo.getJSONObject("data").getString("card");
+        if (username.equals("")) {
+            username = userInfo.getJSONObject("data").getString("nickname");
+        }
+
+        return username;
     }
 
     public static void sendToQQ(EntityPlayerMP player, String message) {

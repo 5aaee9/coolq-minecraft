@@ -21,19 +21,21 @@ public class Config {
         try {
             Main.configuration.load();
 
-            Property sendHostProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "sendHost",
+            Main.configuration.getCategory("coolq");
+
+            Property sendHostProp = Main.configuration.get("coolq", "sendHost",
                     "http://127.0.0.1:5700", "Coolq Host with port");
 
-            Property httpStartAtProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "httpStartAt",
+            Property httpStartAtProp = Main.configuration.get("coolq", "httpStartAt",
                     1080, "Coolq Callback server start at this port");
 
-            Property groupIdProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "groupId",
+            Property groupIdProp = Main.configuration.get("coolq", "groupId",
                     0, "QQ Group id");
 
-            Property accessTokenProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "accessToken",
+            Property accessTokenProp = Main.configuration.get("coolq", "accessToken",
                     "", "Coolq HTTP Access Token");
 
-            Property signatureProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "signature",
+            Property signatureProp = Main.configuration.get("coolq", "signature",
                     "", "Coolq HTTP Signature");
 
             Property blacklistProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "blacklist",

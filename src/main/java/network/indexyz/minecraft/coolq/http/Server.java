@@ -75,12 +75,13 @@ public class Server extends NanoHTTPD {
         }
 
         JSONObject obj = new JSONObject(postBody);
-        try {
-            Recv.parseRequestBody(obj);
-        } catch (IOException e) {
-            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT,
-                    "SERVER INTERNAL ERROR: IOException: " + e.getMessage());
-        }
+        new Thread(() -> {
+            try {
+                Recv.parseRequestBody(obj);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
         return newFixedLengthResponse("ojbk");
     }
 }
