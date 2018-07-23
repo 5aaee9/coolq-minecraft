@@ -5,5 +5,5 @@ import java.util.List;
 public interface Command {
     public static String prefix = "";
     public static String name = "";
-    public static void process(List<String> args) {};
+    public void process(List<String> args, Context ctx);
 }

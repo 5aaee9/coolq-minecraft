@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Index {
     private static List<Class> classList = null;
 
-    public static void invokeCommand(String command) {
+    public static void invokeCommand(String command, Context ctx) {
         String commandBody = command.substring(2);
         List<String> commandAndArgs = Arrays.stream(commandBody.split(" "))
                 .collect(Collectors.toList());
@@ -26,7 +26,7 @@ public class Index {
                 if (prefix.equals(commandAndArgs.get(0))) {
                     for (Method method : c.getMethods()) {
                         if (method.getName().equals("process")) {
-                            method.invoke(anInstance, commandAndArgs.subList(1, commandAndArgs.size()));
+                            method.invoke(anInstance, commandAndArgs.subList(1, commandAndArgs.size()), ctx);
                         }
                     }
                 }

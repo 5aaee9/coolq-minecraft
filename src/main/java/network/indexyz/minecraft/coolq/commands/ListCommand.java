@@ -12,7 +12,8 @@ public class ListCommand implements Command {
     public static String prefix = "list";
     public static String name = "List users in server";
 
-    public static void process(List<String> args) {
+    @Override
+    public void process(List<String> args, Context ctx) {
 
         List<EntityPlayerMP> users = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
         String userList = users.stream()
@@ -26,7 +27,6 @@ public class ListCommand implements Command {
                 return listString;
             });
 
-        Main.logger.info("yes, here");
         Req.sendToQQ("Online user count: " + users.size());
         if (users.size() > 0) {
             Req.sendToQQ("User list: " + userList);

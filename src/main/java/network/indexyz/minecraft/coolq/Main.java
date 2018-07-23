@@ -27,7 +27,6 @@ public class Main {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        Index.invokeCommand("!!list");
         Main.configuration = new Configuration(event.getSuggestedConfigurationFile());
         Config.init();
     }

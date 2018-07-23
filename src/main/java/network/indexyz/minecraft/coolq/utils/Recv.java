@@ -3,6 +3,7 @@ package network.indexyz.minecraft.coolq.utils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import network.indexyz.minecraft.coolq.Main;
+import network.indexyz.minecraft.coolq.commands.Context;
 import network.indexyz.minecraft.coolq.commands.Index;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -54,8 +55,8 @@ public class Recv {
                         return;
                     }
 
-                    for (String black: Config.blacklist) {
-                        if (black.equals(String.valueOf(userId))) {
+                    for (long black: Config.blacklist) {
+                        if (black == userId) {
                             return;
                         }
                     }
@@ -70,7 +71,9 @@ public class Recv {
                     }
 
                     if (message.startsWith("!!")) {
-                        Index.invokeCommand(message);
+                        Context ctx = new Context();
+                        ctx.sendFrom = userId;
+                        Index.invokeCommand(message, ctx);
                         return;
                     }
 

@@ -4,13 +4,17 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import network.indexyz.minecraft.coolq.Main;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Config {
     public static String sendHost = "http://127.0.0.1:5700";
     public static int httpStartAt = 1080;
     public static long groupId = 0;
     public static String accessToken = "";
     public static String signature = "";
-    public static String blacklist[] = null;
+    public static long blacklist[] = null;
     public static int messageLimit = -1;
 
     public static void init() {
@@ -44,7 +48,11 @@ public class Config {
             Config.groupId = groupIdProp.getLong();
             Config.accessToken = accessTokenProp.getString();
             Config.signature = signatureProp.getString();
-            Config.blacklist = blacklistProp.getStringList();
+
+            Config.blacklist = Arrays.stream(blacklistProp.getStringList())
+                .mapToLong(Long::valueOf)
+                .toArray();
+
             Config.messageLimit = messageLimitProp.getInt();
         } catch (Exception e) {
             // Not need handle here
