@@ -19,21 +19,12 @@ public class Index {
 
         for (Class c : getCommandClass()) {
             try {
-                Field field = c.getDeclaredField("prefix");
-                field.setAccessible(true);
-                String prefix = (String) field.get(c);
-                Object anInstance = c.newInstance();
-                if (prefix.equals(commandAndArgs.get(0))) {
-                    for (Method method : c.getMethods()) {
-                        if (method.getName().equals("process")) {
-                            method.invoke(anInstance, commandAndArgs.subList(1, commandAndArgs.size()), ctx);
-                        }
-                    }
+                Command anInstance = (Command) c.newInstance();
+                if (anInstance.getPrefix().equals(commandAndArgs.get(0))) {
+                    anInstance.process(commandAndArgs.subList(1, commandAndArgs.size()), ctx);
                 }
-            } catch (NoSuchFieldException |
-                     NoSuchMethodError |
+            } catch (NoSuchMethodError |
                      IllegalAccessException |
-                     InvocationTargetException |
                      InstantiationException e) {
                 e.printStackTrace();
             }

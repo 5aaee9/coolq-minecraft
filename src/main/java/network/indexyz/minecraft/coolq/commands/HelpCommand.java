@@ -2,13 +2,9 @@ package network.indexyz.minecraft.coolq.commands;
 
 import network.indexyz.minecraft.coolq.utils.Req;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class HelpCommand implements Command {
-    public static String prefix = "help";
-    public static String name = "Display help for commands";
-
     @Override
     public void process(List<String> args, Context ctx) {
         List<Class<? extends Command>> classes = Index.getCommandClass();
@@ -16,14 +12,9 @@ public class HelpCommand implements Command {
 
         for (Class<? extends Command> clazz : classes) {
             try {
-                Field prefixField = clazz.getDeclaredField("prefix");
-                Field nameField = clazz.getDeclaredField("name");
-                prefixField.setAccessible(true);
-                nameField.setAccessible(true);
-                String commandPrefix = (String) prefixField.get(clazz);
-                String commandName = (String) nameField.get(clazz);
-                result.append("!!").append(commandPrefix).append(": ").append(commandName).append("\n");
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+                Command instance = (Command) clazz.newInstance();
+                result.append("!!").append(instance.getPrefix()).append(": ").append(instance.getName()).append("\n");
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -32,5 +23,15 @@ public class HelpCommand implements Command {
         result.deleteCharAt(result.length() - 1);
 
         Req.sendToQQ(result.toString());
+    }
+
+    @Override
+    public String getPrefix() {
+        return "help";
+    }
+
+    @Override
+    public String getName() {
+        return "Display help for commands";
     }
 }

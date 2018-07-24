@@ -8,9 +8,6 @@ import network.indexyz.minecraft.coolq.utils.Req;
 import java.util.List;
 
 public class ListCommand implements Command {
-    public static String prefix = "list";
-    public static String name = "List users in server";
-
     @Override
     public void process(List<String> args, Context ctx) {
         List<EntityPlayerMP> users = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
@@ -29,5 +26,15 @@ public class ListCommand implements Command {
         if (users.size() > 0) {
             Req.sendToQQ("User list: " + userList);
         }
+    }
+
+    @Override
+    public String getPrefix() {
+        return "list";
+    }
+
+    @Override
+    public String getName() {
+        return "List users in server";
     }
 }
