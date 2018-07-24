@@ -4,6 +4,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import network.indexyz.minecraft.coolq.Main;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Config {
@@ -13,7 +14,14 @@ public class Config {
     public static String accessToken = "";
     public static String signature = "";
     public static long blacklist[] = null;
+    public static long adminList[] = null;
     public static int messageLimit = -1;
+
+    private static long[] convStringListToLong(String list[]) {
+        return Arrays.stream(list)
+                    .mapToLong(Long::valueOf)
+                    .toArray();
+    }
 
     public static void init() {
         try {
@@ -39,6 +47,9 @@ public class Config {
             Property blacklistProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "blacklist",
                     (new String[]{ }), "Will ignore message from this id");
 
+            Property adminListProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "adminList",
+                    (new String[]{ }), "Bot admin QQ list, allow exec command as server");
+
             Property messageLimitProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "messageLimit",
                     -1, "Will ignore message if longer than this value (-1 for unlimited)");
 
@@ -48,11 +59,8 @@ public class Config {
             Config.groupId = groupIdProp.getLong();
             Config.accessToken = accessTokenProp.getString();
             Config.signature = signatureProp.getString();
-
-            Config.blacklist = Arrays.stream(blacklistProp.getStringList())
-                .mapToLong(Long::valueOf)
-                .toArray();
-
+            Config.blacklist = convStringListToLong(blacklistProp.getStringList());
+            Config.adminList = convStringListToLong(adminListProp.getStringList());
             Config.messageLimit = messageLimitProp.getInt();
         } catch (Exception e) {
             // Not need handle here
