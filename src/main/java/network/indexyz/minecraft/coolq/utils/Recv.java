@@ -7,37 +7,9 @@ import network.indexyz.minecraft.coolq.commands.Index;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class Recv {
-    private static String clearImage(String str) {
-        String regex = "\\[CQ:image,[(\\s\\S)]*\\]";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(str);
-        return m.replaceAll("").trim();
-    }
-
-    private static String replaceAt(String origin) {
-        String regex = "\\[CQ:at,qq=(\\d*)\\]";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(origin);
-
-        try {
-            while (m.find()) {
-                String username = Req.getUsernameFromInfo(
-                    Req.getUserNameById(Config.groupId, Long.valueOf(m.group(1)))
-                );
-
-                origin = m.replaceFirst("@" + username);
-                m = p.matcher(origin);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return origin;
-    }
-
     public static void parseRequestBody(JSONObject jsonObject) throws IOException {
         String type = jsonObject.getString("post_type");
         switch (type) {
@@ -54,8 +26,9 @@ public class Recv {
                     }
 
                     String message = jsonObject.getString("raw_message");
-                    message = Recv.replaceAt(message);
-                    message = Recv.clearImage(message);
+                    message = CoolQ.replaceAt(message);
+                    message = CoolQ.clearImage(message);
+                    message = CoolQ.replaceCharset(message);
 
                     // Image only message
                     if (message.length() == 0) {

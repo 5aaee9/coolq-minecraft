@@ -11,21 +11,18 @@ public class ListCommand implements Command {
     @Override
     public void process(List<String> args, Context ctx) {
         List<EntityPlayerMP> users = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
-        String userList = users.stream()
-            .map(EntityPlayer::getDisplayNameString)
-            .reduce("", (listString, user) -> {
-                if (listString.length() == 0) {
-                    listString += user;
-                } else {
-                    listString += (", " + user);
-                }
-                return listString;
-            });
 
-        Req.sendToQQ("Online user count: " + users.size());
+        String result = "Online user count: " + users.size();
+
         if (users.size() > 0) {
-            Req.sendToQQ("User list: " + userList);
+            String userList = users.stream()
+                .map(EntityPlayer::getDisplayNameString)
+                .reduce("", (listString, user) ->
+                        listString.length() == 0 ? user : listString + ", " + user
+                );
+            result += "\nUser list: " + userList;
         }
+        Req.sendToQQ(result);
     }
 
     @Override
