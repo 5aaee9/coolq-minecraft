@@ -13,10 +13,10 @@ public class ExecCommand implements Command {
 
     @Override
     public void process(List<String> args, Context ctx) {
-        String commandBody = args.stream().reduce("", (all, item) -> all + " " + item);
-
         for (long qq : Config.adminList) {
             if (qq == ctx.sendFrom) {
+                String commandBody = args.stream().reduce("", (all, item) -> all + " " + item).trim();
+                
                 if (ExecCommand.commandSender == null) {
                     ExecCommand.commandSender = new CommandSender();
                 }
