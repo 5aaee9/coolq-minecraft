@@ -3,9 +3,6 @@ package network.indexyz.minecraft.coolq.commands;
 import com.google.common.reflect.ClassPath;
 import network.indexyz.minecraft.coolq.Main;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
