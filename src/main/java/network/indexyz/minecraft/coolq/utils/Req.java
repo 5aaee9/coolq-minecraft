@@ -1,9 +1,7 @@
 package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -55,8 +53,18 @@ public class Req {
         new Thread(() -> {
             try {
                 OkHttpClient client = new OkHttpClient();
+
+                JSONObject object = new JSONObject();
+                object.put("group_id", Config.groupId);
+                object.put("message", message);
+
+                RequestBody requestBody = RequestBody.create(
+                        MediaType.parse("application/json; charset=utf-8"), object.toString());
+
+
                 Request request = getRequest()
-                        .url(Config.sendHost + "/send_group_msg?group_id=" + Config.groupId + "&message=" + message)
+                        .url(Config.sendHost + "/send_group_msg")
+                        .post(requestBody)
                         .build();
 
                 client.newCall(request).execute().close();

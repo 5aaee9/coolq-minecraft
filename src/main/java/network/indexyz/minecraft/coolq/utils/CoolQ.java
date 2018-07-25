@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CoolQ {
-    public static final String LINE_CHAR = "\\n";
+    public static final String LINE_CHAR = "\n";
 
     static String clearImage(String str) {
         String regex = "\\[CQ:image,[(\\s\\S)]*\\]";
