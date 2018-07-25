@@ -1,5 +1,6 @@
 package network.indexyz.minecraft.coolq.commands;
 
+import network.indexyz.minecraft.coolq.utils.CoolQ;
 import network.indexyz.minecraft.coolq.utils.Req;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public class HelpCommand implements Command {
         for (Class<? extends Command> clazz : classes) {
             try {
                 Command instance = (Command) clazz.newInstance();
-                result.append("!!").append(instance.getPrefix()).append(": ").append(instance.getName()).append("\n");
+                result.append("!!").append(instance.getPrefix()).append(": ").append(instance.getName())
+                        .append(CoolQ.LINE_CHAR);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }

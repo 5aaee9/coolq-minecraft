@@ -3,6 +3,7 @@ package network.indexyz.minecraft.coolq.commands;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import network.indexyz.minecraft.coolq.utils.CoolQ;
 import network.indexyz.minecraft.coolq.utils.Req;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ListCommand implements Command {
                 .reduce("", (listString, user) ->
                         listString.length() == 0 ? user : listString + ", " + user
                 );
-            result += "\nUser list: " + userList;
+            result += CoolQ.LINE_CHAR + "User list: " + userList;
         }
         Req.sendToQQ(result);
     }

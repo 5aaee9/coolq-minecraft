@@ -1,10 +1,11 @@
 package network.indexyz.minecraft.coolq.utils;
 
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class CoolQ {
+public class CoolQ {
+    public static final String LINE_CHAR = "\\n";
+
     static String clearImage(String str) {
         String regex = "\\[CQ:image,[(\\s\\S)]*\\]";
         Pattern p = Pattern.compile(regex);
