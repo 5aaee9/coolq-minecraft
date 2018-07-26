@@ -3,34 +3,33 @@ package network.indexyz.minecraft.coolq.commands;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import network.indexyz.minecraft.coolq.objects.CommandSender;
-import network.indexyz.minecraft.coolq.utils.Config;
 import network.indexyz.minecraft.coolq.utils.Req;
+import network.indexyz.minecraft.coolq.utils.Role;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class ExecCommand implements Command {
     private static CommandSender commandSender = null;
 
     @Override
     public void process(List<String> args, Context ctx) {
-        for (long qq : Config.adminList) {
-            if (qq == ctx.sendFrom) {
-                String commandBody = args.stream().reduce("", (all, item) -> all + " " + item).trim();
+        if (Role.checkRole(ctx.sendFrom)) {
+            String commandBody = args.stream().reduce("", (all, item) -> all + " " + item).trim();
 
-                if (ExecCommand.commandSender == null) {
-                    ExecCommand.commandSender = new CommandSender();
-                }
-                // Yes It's able to exec command
-                MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-
-                server.getWorld(0).addScheduledTask(() ->
-                    server.getCommandManager().executeCommand(
-                        ExecCommand.commandSender, commandBody
-                ));
-                return;
+            if (ExecCommand.commandSender == null) {
+                ExecCommand.commandSender = new CommandSender();
             }
+
+            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+            server.getWorld(0).addScheduledTask(() ->
+                    server.getCommandManager().executeCommand(
+                            ExecCommand.commandSender, commandBody
+                    ));
+        } else {
+            Req.sendToQQ("Permission denied.");
         }
-        Req.sendToQQ("Permission denied.");
     }
 
     @Override

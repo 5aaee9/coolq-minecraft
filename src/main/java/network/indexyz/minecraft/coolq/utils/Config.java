@@ -16,6 +16,7 @@ public class Config {
     public static long blacklist[] = null;
     public static long adminList[] = null;
     public static int messageLimit = -1;
+    public static boolean groupAdminAsGameAdmin = false;
 
     private static long[] convStringListToLong(String list[]) {
         return Arrays.stream(list)
@@ -54,6 +55,10 @@ public class Config {
             Property messageLimitProp = Main.configuration.get(Configuration.CATEGORY_GENERAL, "messageLimit",
                     -1, "Will ignore message if longer than this value (-1 for unlimited)");
 
+            Property groupAdminAsGameAdminProp = Main.configuration.get(Configuration.CATEGORY_GENERAL,
+                    "groupAdminAsGameAdmin", -1,
+                    "Is group admin will include in admin list");
+
 
             Config.sendHost = sendHostProp.getString();
             Config.httpStartAt = httpStartAtProp.getInt();
@@ -63,6 +68,7 @@ public class Config {
             Config.blacklist = convStringListToLong(blacklistProp.getStringList());
             Config.adminList = convStringListToLong(adminListProp.getStringList());
             Config.messageLimit = messageLimitProp.getInt();
+            Config.groupAdminAsGameAdmin = groupAdminAsGameAdminProp.getBoolean();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -17,22 +17,29 @@ public class Req {
         return builder;
     }
 
+    private static final JSONObject errorObject = new JSONObject("{\"retcode\": 1}");
 
-    static String getUserNameById(long group, long userId) throws IOException {
+    public static JSONObject getUserNameById(long group, long userId) {
         OkHttpClient client = new OkHttpClient();
         Request request = getRequest()
                 .url(Config.sendHost + "/get_group_member_info?group_id=" + group + "&user_id=" + userId)
                 .build();
-        Response response = client.newCall(request).execute();
-        String ret = response.body().string();
-        response.close();
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.body() == null) {
+                return errorObject;
+            }
+            JSONObject ret = new JSONObject(response.body().string());
+            response.close();
 
-        return ret;
+            return ret;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return errorObject;
+        }
     }
 
-    static String getUsernameFromInfo(String infoBody) {
-        JSONObject userInfo = new JSONObject(infoBody);
-
+    static String getUsernameFromInfo(JSONObject userInfo) {
         if (userInfo.getInt("retcode") != 0) {
             return "";
         }
@@ -44,6 +51,7 @@ public class Req {
 
         return username;
     }
+
 
     public static void sendToQQ(EntityPlayerMP player, String message) {
         sendToQQ("[" + Chat.stripColor(player.getName()) + "]: " + message);
