@@ -6,11 +6,9 @@ import network.indexyz.minecraft.coolq.commands.Context;
 import network.indexyz.minecraft.coolq.commands.Index;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.stream.Stream;
 
 public class Recv {
-    public static void parseRequestBody(JSONObject jsonObject) throws IOException {
+    public static void parseRequestBody(JSONObject jsonObject) {
         String type = jsonObject.getString("post_type");
         switch (type) {
             case "message": {

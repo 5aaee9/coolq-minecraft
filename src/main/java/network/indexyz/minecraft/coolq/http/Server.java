@@ -75,13 +75,7 @@ public class Server extends NanoHTTPD {
         }
 
         JSONObject obj = new JSONObject(postBody);
-        new Thread(() -> {
-            try {
-                Recv.parseRequestBody(obj);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        new Thread(() -> Recv.parseRequestBody(obj)).start();
         return newFixedLengthResponse("ojbk");
     }
 }
