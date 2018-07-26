@@ -39,6 +39,7 @@ public class Req {
                 e.printStackTrace();
                 Main.logger.info("Parse json object error: get");
                 Main.logger.info(response.body());
+                return errorObject;
             } finally {
                 response.close();
             }
