@@ -66,6 +66,7 @@ public class Server extends NanoHTTPD {
                 Main.logger.warn("signature verify error");
                 Main.logger.warn("get: " + serverPost);
                 Main.logger.warn("require: " + signature);
+                Main.logger.info("checked by: " + Config.signature);
                 JSONObject obj = new JSONObject();
                 obj.put("status", "error");
                 obj.put("message", "Signature verify error");

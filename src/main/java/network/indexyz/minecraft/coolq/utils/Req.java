@@ -1,7 +1,9 @@
 package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import network.indexyz.minecraft.coolq.Main;
 import okhttp3.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -29,10 +31,17 @@ public class Req {
             if (response.body() == null) {
                 return errorObject;
             }
-            JSONObject ret = new JSONObject(response.body().string());
-            response.close();
+            try {
+                JSONObject ret = new JSONObject(response.body().string());
 
-            return ret;
+                return ret;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Main.logger.info("Parse json object error: get");
+                Main.logger.info(response.body());
+            } finally {
+                response.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return errorObject;
