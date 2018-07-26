@@ -14,7 +14,7 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.0.0"
+version = "1.0.1"
 group = "network.indexyz.minecraft.coolq"
 archivesBaseName = "coolq-minecraft"
 
