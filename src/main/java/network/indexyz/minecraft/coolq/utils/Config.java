@@ -4,7 +4,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import network.indexyz.minecraft.coolq.Main;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Config {

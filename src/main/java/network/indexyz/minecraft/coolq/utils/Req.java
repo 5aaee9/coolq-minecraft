@@ -26,31 +26,33 @@ public class Req {
         Request request = getRequest()
                 .url(Config.sendHost + "/get_group_member_info?group_id=" + group + "&user_id=" + userId)
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.body() == null) {
-                return errorObject;
-            }
-            try {
-                JSONObject ret = new JSONObject(response.body().byteStream());
 
-                return ret;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Main.logger.info("Parse json object error: get");
-                Main.logger.info(response.body().string());
-                return errorObject;
-            } finally {
-                response.close();
-            }
-        } catch (IOException e) {
+
+        Response response;
+        try {
+            response = client.newCall(request).execute();
+        } catch (IOException err) {
+            err.printStackTrace();
+            return errorObject;
+        }
+
+        if (response.body() == null) {
+            return errorObject;
+        }
+
+
+        try {
+            return new JSONObject(response.body().string());
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
             return errorObject;
+        } finally {
+            response.close();
         }
     }
 
     static String getUsernameFromInfo(JSONObject userInfo) {
-        if (userInfo.getInt("retcode") != 0) {
+        if (userInfo.getNumber("retcode").intValue() != 0) {
             return "";
         }
 
