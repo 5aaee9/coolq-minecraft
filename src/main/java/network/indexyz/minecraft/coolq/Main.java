@@ -14,14 +14,12 @@ import java.io.IOException;
 @Mod(modid = Main.MOD_ID, name = Main.NAME, version = Main.VERSION,
         acceptedMinecraftVersions = "1.12.2", serverSideOnly = true, acceptableRemoteVersions = "*")
 public class Main {
-    public static final String MOD_ID = "coolq-minecraft";
-    public static final String NAME = "Coolq Minecraft";
-    public static final String VERSION = "@version@";
+    static final String MOD_ID = "coolq-minecraft";
+    static final String NAME = "Coolq Minecraft";
+    static final String VERSION = "@version@";
 
     public static Configuration configuration;
     public static Logger logger;
-
-    private Server server;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -32,7 +30,7 @@ public class Main {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) throws IOException {
-        server = new Server();
+        Server server = new Server();
         server.startService();
     }
 }

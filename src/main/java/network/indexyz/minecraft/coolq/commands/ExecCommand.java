@@ -16,18 +16,21 @@ public class ExecCommand implements Command {
         for (long qq : Config.adminList) {
             if (qq == ctx.sendFrom) {
                 String commandBody = args.stream().reduce("", (all, item) -> all + " " + item).trim();
-                
+
                 if (ExecCommand.commandSender == null) {
                     ExecCommand.commandSender = new CommandSender();
                 }
                 // Yes It's able to exec command
                 MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-                server.getCommandManager().executeCommand(
-                    ExecCommand.commandSender, commandBody
-                );
-                Req.sendToQQ("Command Exceed");
+
+                server.getWorld(0).addScheduledTask(() ->
+                    server.getCommandManager().executeCommand(
+                        ExecCommand.commandSender, commandBody
+                ));
+                return;
             }
         }
+        Req.sendToQQ("Permission denied.");
     }
 
     @Override

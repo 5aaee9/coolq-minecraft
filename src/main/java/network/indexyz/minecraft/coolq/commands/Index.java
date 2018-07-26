@@ -29,7 +29,7 @@ public class Index {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Class<? extends Command>> getCommandClass() {
+    static List<Class<? extends Command>> getCommandClass() {
         if (Index.classList == null) {
             List<Class<? extends Command>> returnClassList = new ArrayList<>();
             final ClassLoader loader = Thread.currentThread().getContextClassLoader();

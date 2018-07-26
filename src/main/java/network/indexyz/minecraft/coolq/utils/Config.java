@@ -19,8 +19,9 @@ public class Config {
 
     private static long[] convStringListToLong(String list[]) {
         return Arrays.stream(list)
-                    .mapToLong(Long::valueOf)
-                    .toArray();
+                .filter(i -> i.length() > 0)
+                .mapToLong(Long::valueOf)
+                .toArray();
     }
 
     public static void init() {
@@ -63,7 +64,7 @@ public class Config {
             Config.adminList = convStringListToLong(adminListProp.getStringList());
             Config.messageLimit = messageLimitProp.getInt();
         } catch (Exception e) {
-            // Not need handle here
+            e.printStackTrace();
         } finally {
             if (Main.configuration.hasChanged()) {
                 Main.configuration.save();
