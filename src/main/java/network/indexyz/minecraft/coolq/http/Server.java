@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +52,8 @@ public class Server extends NanoHTTPD {
 
         if (!Config.signature.equals("")) {
             // Need verify body
-            String signature = HmacUtils.hmacSha1Hex(Config.signature, postBody);
+            String signature = HmacUtils.hmacSha1Hex(Config.signature.getBytes(),
+                    postBody.getBytes(Charset.forName("utf-8")));
 
             if (!headers.containsKey("x-signature")) {
                 JSONObject obj = new JSONObject();

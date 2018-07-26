@@ -32,13 +32,13 @@ public class Req {
                 return errorObject;
             }
             try {
-                JSONObject ret = new JSONObject(response.body().string());
+                JSONObject ret = new JSONObject(response.body().byteStream());
 
                 return ret;
             } catch (JSONException e) {
                 e.printStackTrace();
                 Main.logger.info("Parse json object error: get");
-                Main.logger.info(response.body());
+                Main.logger.info(response.body().string());
                 return errorObject;
             } finally {
                 response.close();
