@@ -1,7 +1,6 @@
 package network.indexyz.minecraft.coolq.utils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import network.indexyz.minecraft.coolq.Main;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +20,7 @@ public class Req {
 
     private static final JSONObject errorObject = new JSONObject("{\"retcode\": 1}");
 
-    public static JSONObject getUserNameById(long group, long userId) {
+    public static JSONObject getProfile(long group, long userId) {
         OkHttpClient client = new OkHttpClient();
         Request request = getRequest()
                 .url(Config.sendHost + "/get_group_member_info?group_id=" + group + "&user_id=" + userId)
@@ -36,13 +35,14 @@ public class Req {
             return errorObject;
         }
 
-        if (response.body() == null) {
+        ResponseBody body = response.body();
+
+        if (body == null) {
             return errorObject;
         }
 
-
         try {
-            return new JSONObject(response.body().string());
+            return new JSONObject(body.string());
         } catch (JSONException | IOException e) {
             e.printStackTrace();
             return errorObject;
@@ -52,6 +52,10 @@ public class Req {
     }
 
     static String getUsernameFromInfo(JSONObject userInfo) {
+        if (userInfo == null) {
+            return "";
+        }
+
         if (userInfo.getNumber("retcode").intValue() != 0) {
             return "";
         }

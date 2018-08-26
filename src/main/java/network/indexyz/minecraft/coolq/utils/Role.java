@@ -38,7 +38,7 @@ public class Role {
         }
 
         if (Config.groupAdminAsGameAdmin) {
-            UserRole role = getUserRole(Req.getUserNameById(Config.groupId, userId));
+            UserRole role = getUserRole(Req.getProfile(Config.groupId, userId));
             return role == UserRole.ADMIN || role == UserRole.OWNER;
         }
 

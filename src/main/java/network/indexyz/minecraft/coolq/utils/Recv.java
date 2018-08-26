@@ -17,7 +17,7 @@ public class Recv {
                         return;
                     }
                     long userId = jsonObject.getLong("user_id");
-                    String username = Req.getUsernameFromInfo(Req.getUserNameById(Config.groupId, userId));
+                    String username = Req.getUsernameFromInfo(Req.getProfile(Config.groupId, userId));
                     if (username.equals("")) {
                         Main.logger.warn("get user info error, user: " + userId);
                         return;
