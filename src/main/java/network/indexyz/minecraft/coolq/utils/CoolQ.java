@@ -21,7 +21,7 @@ public class CoolQ {
         try {
             while (m.find()) {
                 String username = Req.getUsernameFromInfo(
-                        Req.getUserNameById(Config.groupId, Long.valueOf(m.group(1)))
+                        Req.getProfile(Config.groupId, Long.valueOf(m.group(1)))
                 );
 
                 origin = m.replaceFirst("@" + username);
